@@ -1,0 +1,9 @@
+FROM gradle:7.5.1-jdk17 as build
+COPY . .
+RUN gradle clean build -x test
+
+FROM openjdk:17
+RUN groupadd oracle && useradd oracle -g oracle
+USER oracle
+COPY --from=build /home/gradle/build/libs/usermanagement-0.0.1-SNAPSHOT.jar app.jar
+CMD ["java", "-jar","/app.jar"]

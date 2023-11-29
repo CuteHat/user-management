@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:16-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: toor
+      POSTGRES_USER: root
+      POSTGRES_DB: management-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  user-service:
+    build: .
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/management-db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: toor
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"  # Map the port as needed
+
+volumes:
+  postgres_data:

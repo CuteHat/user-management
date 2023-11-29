@@ -1,0 +1,11 @@
+hazelcast:
+
+  map:
+    users:
+      time-to-live-seconds: 60
+    usersByEmail:
+      time-to-live-seconds: 60
+    filteredUsers:
+      time-to-live-seconds: 60
+    roles:
+      time-to-live-seconds: 60
